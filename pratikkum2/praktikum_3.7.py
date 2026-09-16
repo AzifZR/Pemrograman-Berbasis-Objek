@@ -1,11 +1,10 @@
-# AttributeError, ImportError
 try:
-    import math
-    print(math.a)
-except AttributeError as e:
-    print(f"Error Atribut: {e}")
-
-try:
-    from time import datetime
-except ImportError as e:
-    print(f"Error Import: {e}")
+    list=[1, 2, 3]
+    print(list[3])
+except IndexError:
+    print("Ada kesalahan indeks")
+except LookupError:
+    print("Ada kesalahan lookup")
+except Exception:
+    print("Ada kesalahan base")
+print("<< End Program >>")
