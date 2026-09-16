@@ -1,10 +1,9 @@
 import math
 import os
+import zipimport
 
-# Skenario A: OverflowError > ArithmeticError > Exception
 print("--- Skenario A ---")
 try:
-    # Memaksa OverflowError (misalnya hasil terlalu besar untuk float)
     hasil = math.exp(1000)
     print(hasil)
 except OverflowError as e:
@@ -15,14 +14,11 @@ except Exception as e:
     print(f"Ditangkap oleh base Exception: {e}")
 
 print("\n--- Skenario B ---")
-# Skenario B: FileExistsError > OSError > Exception
+nama_file = "test_file.txt"
 try:
-    # Membuat file yang sudah ada
-    nama_file = "test_file.txt"
     with open(nama_file, 'w') as f:
         f.write("Halo")
     
-    # Mencoba membuat eksklusif file yang sama (akan trigger FileExistsError)
     with open(nama_file, 'x') as f:
         f.write("Ditolak")
 except FileExistsError as e:
@@ -32,6 +28,23 @@ except OSError as e:
 except Exception as e:
     print(f"Ditangkap oleh base Exception: {e}")
 finally:
-    # Bersihkan file
     if os.path.exists(nama_file):
         os.remove(nama_file)
+
+print("\n--- Skenario C ---")
+dummy_file = "dummy_test_zip.txt"
+try:
+    with open(dummy_file, "w") as f:
+        f.write("Bukan file zip")
+    
+    importer = zipimport.zipimporter(dummy_file)
+    importer.load_module("modul_dummy")
+except zipimport.ZipImportError as e:
+    print(f"Ditangkap oleh ZipImportError: {e}")
+except ImportError as e:
+    print(f"Ditangkap oleh ImportError: {e}")
+except Exception as e:
+    print(f"Ditangkap oleh base Exception: {e}")
+finally:
+    if os.path.exists(dummy_file):
+        os.remove(dummy_file)
