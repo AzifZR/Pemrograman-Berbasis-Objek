@@ -4,14 +4,18 @@ class SaldoTidakMencukupiError(Exception):
 class NominalTidakValidError(Exception):
     pass
 
-def atm():
-    saldo = 500000
-    print("--- ATM Sederhana ---")
-    print(f"Saldo awal: Rp{saldo}")
+saldo = 500000
+print("--- ATM Sederhana ---")
+
+while True:
+    print(f"\nSaldo saat ini: Rp{saldo}")
+    nominal_input = input("Masukkan nominal tarik tunai (ketik 'keluar' untuk selesai): ")
     
-    try:
-        nominal_input = input("Masukkan nominal tarik tunai: ")
+    if nominal_input.strip().lower() in ['keluar', 'exit', 'q']:
+        print("Terima kasih telah menggunakan ATM.")
+        break
         
+    try:
         try:
             nominal = int(nominal_input)
         except ValueError:
@@ -34,6 +38,3 @@ def atm():
         print(f"Error: {e}")
     except Exception as e:
         print(f"Error tak terduga: {e}")
-        
-if __name__ == "__main__":
-    atm()
